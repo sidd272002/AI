@@ -1,0 +1,10 @@
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
+bot = ChatBot("Test")
+convo = open("aique.txt", "r").readlines()
+trainer = ListTrainer(bot)
+trainer.train(convo)
+while True:
+    request = input('you:')
+    response = bot.get_response(request)
+    print("Bot:", response)
