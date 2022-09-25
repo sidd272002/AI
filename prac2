@@ -1,0 +1,25 @@
+from random import choice 
+from experta import*
+#creating facts and rules
+class Light(Fact):
+   """Info about the traffic light."""
+   pass
+#which is an inference engine holding a set
+class RobotCrossStreet(KnowledgeEngine):
+   @Rule(Light(color='Green'))
+   def Green_light(self):
+     print("walk")
+     
+   @Rule(Light(color='Red'))
+   def Red_light(self):
+     print("Dont walk")
+   @Rule(AS.light<<Light(color=L('yellow') | L('blinking .yellow')))
+   def cautious(self, Light):
+      print("Be cautious because light is ",Light['color'])
+  
+engine = RobotCrossStreet()
+engine.reset()
+color_now = choice(['green','yellow','blinking yellow','red'])
+print('color now:',color_now)
+engine.declare(Light(color=color_now))
+engine.run()
