@@ -1,0 +1,105 @@
+# Aim: 4. Perform Feature Engineering and Feature Transformation on a dataset
+
+
+import pandas as pd
+ #create data
+df = pd.DataFrame([
+     [180000, 110, 18.9, 1400],
+     [360000, 905, 23.4, 1800],
+     [230000, 230, 14.0, 1300],
+     [60000, 450, 13.5, 1500]],
+
+     columns=['Col A', 'Col B',
+              'Col C', 'Col D'])
+  #view data
+print(df)
+df_min_max_scaled = df.copy()
+
+  #apply normalization techniques
+for column in df_min_max_scaled.columns:
+     df_min_max_scaled[column] = (df_min_max_scaled[column] - df_min_max_scaled[column].min()) / (
+                 df_min_max_scaled[column].max() - df_min_max_scaled[column].min())
+
+  #view normalized data
+print(df_min_max_scaled)
+
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler(feature_range=(0, 1))
+
+  #fit and transform the data
+scaled_data = scaler.fit_transform(df)
+print(scaled_data)
+
+d = {'Index Title': ['Apples', 'Oranges', 'Puppies', 'Ducks'],'Column1': [[1.0,2.0,30], 2.0, 3.0, 4.0],'Column1': [1.0, 2.0, 3.0, 4.0]}
+df = pd.DataFrame(d).set_index('Index Title')
+print(df)
+
+import numpy as np
+
+df1 = pd.read_csv(r"E:/Pankaj/Codes/Python/Data science/train.csv")
+df1_head = df1.head()
+print(df1_head)
+
+df2 = pd.read_csv(r"E:/Pankaj/Codes/Python/Data science/meal_info.csv")
+df2_head = df2.head()
+print(df2_head)
+
+df = pd.merge(df1, df2, on="meal_id")
+
+table = pd.pivot_table(data=df, index='category', values='num_orders',
+                        aggfunc=np.sum)
+print(table)
+
+from matplotlib import pyplot as p
+
+fig,ax = p.subplots(1, 1)
+a = np.array([12, 32, 34, 31, 37, 43, 51, 76, 82, 1, 38, 75])
+print(sorted(a))
+
+ax.hist(a, bins = [0, 20, 40, 60, 80, 100])
+ax.set_title("Histogram Result")
+ax.set_xticks([0, 20, 40, 60, 80, 100])
+ax.set_xlabel("Marks")
+ax.set_ylabel("No of students")
+p.show()
+
+
+
+
+
+
+
+#Feature Engineering
+df = pd.read_csv(r"E:/Pankaj/Codes/Python/Data science/KaggleV2-May-2016.csv")
+print(df.head())
+
+df['ScheduledDay'] = pd.to_datetime(df['ScheduledDay'],format='%Y-%m-%dT%H:%M:%SZ',errors='coerce')
+
+print(df['ScheduledDay'])
+
+
+df['AppointmentDay'] = pd.to_datetime(df['AppointmentDay'],
+                                      format='%Y-%m-%dT%H:%M:%SZ',
+                                      errors='coerce')
+print(df['AppointmentDay'])
+
+
+df['ScheduledDay_year'] = df['ScheduledDay'].dt.year
+df['ScheduledDay_month'] = df['ScheduledDay'].dt.month
+df['ScheduledDay_week'] = df['ScheduledDay'].dt.week
+df['ScheduledDay_date'] = df['ScheduledDay'].dt.date
+
+print(df[['ScheduledDay_year', 'ScheduledDay_month', 'ScheduledDay_week', 'ScheduledDay_date']].head())
+
+print(df.head)
+
+print(df['ScheduledDay_year'])
+print(df['ScheduledDay_month'])
+print(df['ScheduledDay_week'])
+print(df['ScheduledDay_date'])
+
+
+df['AppointmentDay_Year'] = df['AppointmentDay'].dt.year
+df['AppointmentDay_Month'] = df['AppointmentDay'].dt.month
+df['AppointmentDay_Week'] = df['AppointmentDay'].dt.week
+df['AppointmentDay_Day'] = df['AppointmentDay'].dt.date
