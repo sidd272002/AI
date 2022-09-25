@@ -1,0 +1,75 @@
+#OR
+import numpy as np
+#define unit step function
+def unitstep(v):
+  if(v>=0):
+    return 1
+  else :
+    return 0
+#design perseptron model
+def perseptronmodel(x,w,b):
+  v = np.dot(w,x)+b
+  y = unitstep(v)
+  return y
+#OR logic function
+#w1 =1 ,w2 = 1, bor = -0.5
+def OR_logicfunction(x):
+  w = np.array([1,1])
+  bOR = -0.5
+  return perseptronmodel(x,w,bOR)
+
+test1 = np.array([0,1])
+test2 = np.array([1,1])
+test3 = np.array([0,0])
+test4 = np.array([1,0])
+
+print("OR ({},{} = {})".format(0,1,OR_logicfunction(test1)))
+print("OR ({},{} = {})".format(1,1,OR_logicfunction(test2)))
+print("OR ({},{} = {})".format(0,0,OR_logicfunction(test3)))
+print("OR ({},{} = {})".format(1,0,OR_logicfunction(test4)))
+
+#AND-----------------------------------------------------------------------------------------------------------------------------------
+def AND_logicfunction(x):
+  w = np.array([1,1])
+  bAND = -1.5
+  return perseptronmodel(x,w,bAND)
+test1 = np.array([0,1])
+test2 = np.array([1,1])
+test3 = np.array([0,0])
+test4 = np.array([1,0])
+
+print("and ({},{} = {})".format(0,1,AND_logicfunction(test1)))
+print("and ({},{} = {})".format(1,1,AND_logicfunction(test2)))
+print("and ({},{} = {})".format(0,0,AND_logicfunction(test3)))
+print("and ({},{} = {})".format(1,0,AND_logicfunction(test4)))
+
+#NOT-----------------------------------------------------------------------------------------------------------------------------------
+def NOT_logicfunction(x):
+  wNOT = -1
+  bNOT = 0.5
+  return perseptronmodel(x,wNOT,bNOT)
+test1 = np.array([0])
+test2 = np.array([1])
+
+
+print("NOT ({} = {})".format(0,NOT_logicfunction(test1)))
+print("NOT ({} = {})".format(1,NOT_logicfunction(test2)))
+
+#XOR-----------------------------------------------------------------------------------------------------------------------------------
+def XOR_logicfunction(x):
+  y1 = OR_logicfunction(x)
+  y2 = AND_logicfunction(x)
+  y3 = NOT_logicfunction(y2)
+  final_x = np.array([y1,y3])
+  final_op = AND_logicfunction(final_x)
+  return final_op
+
+test1 = np.array([0,1])
+test2 = np.array([1,1])
+test3 = np.array([0,0])
+test4 = np.array([1,0])
+
+print("XOR ({},{} = {})".format(0,1,XOR_logicfunction(test1)))
+print("XOR ({},{} = {})".format(1,1,XOR_logicfunction(test2)))
+print("XOR ({},{} = {})".format(0,0,XOR_logicfunction(test3)))
+print("XOR ({},{} = {})".format(1,0,XOR_logicfunction(test4)))
